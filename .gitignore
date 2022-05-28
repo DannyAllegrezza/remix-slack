@@ -1,6 +1,8 @@
 node_modules
-
+# Remix stuff
 /.cache
 /build
 /public/build
 .env
+# Generated tailwind CSS file
+/app/tailwind.css
