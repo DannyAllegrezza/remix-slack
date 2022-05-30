@@ -1,6 +1,25 @@
 import ChatInput from "~/components/Chat/ChatInput";
 import ChatMessage from "~/components/Chat/ChatMessage";
 
+const mockChatMessages = [
+	{
+		user: {
+			avatarUrl: "https://www.dannyallegrezza.com/static/7c3c8fe6109d66a1aa2cf8e2060d7245/7d509/danny.jpg",
+			name: "Danny Allegrezza",
+		},
+		timestamp: "11:23",
+		message: "Hey there, whats up everyone??",
+	},
+	{
+		user: {
+			avatarUrl: "https://www.dannyallegrezza.com/static/7c3c8fe6109d66a1aa2cf8e2060d7245/7d509/danny.jpg",
+			name: "Danny Allegrezza",
+		},
+		timestamp: "11:24",
+		message: "So... is anyone out there?",
+	},
+];
+
 export default function WorkspacePage() {
 	return (
 		<div className="flex-1 flex flex-col bg-white overflow-hidden">
@@ -31,10 +50,9 @@ export default function WorkspacePage() {
 			{/* Chat */}
 			<div className="py-4 flex-1 overflow-y-scroll">
 				{/* A chat message */}
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
-				<ChatMessage />
+				{mockChatMessages.map((msg) => (
+					<ChatMessage user={msg.user} timestamp={msg.timestamp} message={msg.message} />
+				))}
 			</div>
 			<ChatInput />
 		</div>
