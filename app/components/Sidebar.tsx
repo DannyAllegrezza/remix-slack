@@ -16,6 +16,14 @@ function BellIcon() {
 	);
 }
 
+function CircleAddIcon() {
+	return (
+		<svg className="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+			<path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
+		</svg>
+	);
+}
+
 export default function Sidebar({ workspace }: SidebarProps) {
 	const { currentUser, channels, directMessages } = workspace;
 	return (
@@ -35,24 +43,23 @@ export default function Sidebar({ workspace }: SidebarProps) {
 						<BellIcon />
 					</div>
 				</div>
+
 				{/* Channels */}
 				<div className="mb-8">
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
 						<div className="opacity-75">Channels</div>
 						<div>
-							<svg className="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-								<path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-							</svg>
+							<CircleAddIcon />
 						</div>
 					</div>
 
 					{channels.map((channel) => (
 						<NavLink to={channel.id} key={channel.id}>
-							<div className="py-1 px-4 text-white"># {channel.name}</div>
+							{({ isActive }) => (
+								<div className={`py-1 px-4 text-white ${isActive && "bg-teal-600"}`}># {channel.name}</div>
+							)}
 						</NavLink>
 					))}
-
-					{/* <div className="bg-teal-600 py-1 px-4 text-white"># general</div> */}
 				</div>
 
 				{/* Direct messages */}
@@ -60,9 +67,7 @@ export default function Sidebar({ workspace }: SidebarProps) {
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
 						<div className="opacity-75">Direct Messages</div>
 						<div>
-							<svg className="fill-current h-4 w-4 opacity-50" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-								<path d="M11 9h4v2h-4v4H9v-4H5V9h4V5h2v4zm-1 11a10 10 0 1 1 0-20 10 10 0 0 1 0 20zm0-2a8 8 0 1 0 0-16 8 8 0 0 0 0 16z" />
-							</svg>
+							<CircleAddIcon />
 						</div>
 					</div>
 
@@ -77,35 +82,16 @@ export default function Sidebar({ workspace }: SidebarProps) {
 
 					{workspace.directMessages.map((dm) => (
 						<NavLink to={dm.id} key={dm.id}>
-							<div className="flex items-center mb-3 px-4">
-								<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
-									<circle cx="10" cy="10" r="10" />
-								</svg>
-								<span className="text-white">{dm.name}</span>
-							</div>
+							{({ isActive }) => (
+								<div className={`flex items-center mb-3 px-4 py-1 ${isActive && "bg-teal-600"}`}>
+									<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
+										<circle cx="10" cy="10" r="10" />
+									</svg>
+									<span className="text-white">{dm.name}</span>
+								</div>
+							)}
 						</NavLink>
 					))}
-
-					{/* <div className="flex items-center mb-3 px-4">
-						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
-							<circle cx="10" cy="10" r="10" />
-						</svg>
-						<span className="text-white">
-							Danny Allegrezza <span className="text-gray-500 text-sm">(you)</span>
-						</span>
-					</div>
-					<div className="flex items-center mb-3 px-4">
-						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
-							<circle cx="10" cy="10" r="10" />
-						</svg>
-						<span className="text-white">Ryan Flo-rence</span>
-					</div>
-					<div className="flex items-center px-4 mb-6 opacity-50">
-						<svg className="h-2 w-2 stroke-current text-white mr-2" viewBox="0 0 22 22">
-							<circle cx="11" cy="11" r="9" fill="none" strokeWidth="3" />
-						</svg>
-						<span className="text-white">Kent Doddz</span>
-					</div> */}
 				</div>
 				{/* <div>
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
