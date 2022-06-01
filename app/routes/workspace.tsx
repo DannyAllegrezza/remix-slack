@@ -12,7 +12,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 	return getWorkspacesForUser();
 };
 
-export default function WorkspacesPage() {
+export default function WorkspacesDefaultPage() {
 	const workspaces = useLoaderData();
 
 	return (

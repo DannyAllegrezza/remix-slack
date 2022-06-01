@@ -1,56 +1,99 @@
-const mockWorkspacesData = {
-	workspace: {
-		id: "123",
-		name: "Remix 📀",
-	},
-	currentUser: {
-		name: "Danny Allegrezza",
-		id: "12345",
-		status: "active",
-	},
-	channels: [
-		{
-			name: "general",
-			id: "G3N3R4L",
-		},
-		{
-			name: "remix",
-			id: "R3M1X",
-		},
-	],
-	directMessages: [
-		{
-			name: "Ryan Flo-rence",
-			id: "24112",
+const mockWorkspacesData = [
+	{
+		id: "123EFG",
+		name: "Remix Workspace 📀",
+		currentUser: {
+			name: "Danny Allegrezza",
+			id: "12345",
 			status: "active",
 		},
-		{
-			name: "Kent Doddz",
-			id: "23421",
-			status: "away",
+		channels: [
+			{
+				name: "general",
+				id: "G3N3R4L",
+			},
+			{
+				name: "remix",
+				id: "R3M1X",
+			},
+		],
+		directMessages: [
+			{
+				name: "Ryan Flo-rence",
+				id: "24112",
+				status: "active",
+			},
+			{
+				name: "Kent Doddz",
+				id: "23421",
+				status: "away",
+			},
+		],
+	},
+	{
+		id: "345ABC",
+		name: "Langdiff Hangout 💣",
+		currentUser: {
+			name: "Danny Allegrezza",
+			id: "12345",
+			status: "active",
 		},
-	],
-};
+		channels: [
+			{
+				name: "general",
+				id: "G3N3R4L",
+			},
+			{
+				name: "dev",
+				id: "D3V1337",
+			},
+			{
+				name: "help",
+				id: "H3LPM3",
+			},
+		],
+		directMessages: [
+			{
+				name: "Big Billy",
+				id: "1337",
+				status: "active",
+			},
+			{
+				name: "Aulugaluga Cat",
+				id: "33533",
+				status: "away",
+			},
+		],
+	},
+];
 
-export function getWorkspacesForUser(): Workspace[] {
-	return [
-		{
-			fullName: "Remix Workspace",
-			shortName: "R",
-			id: "123EFG",
-		},
-		{
-			fullName: "Langdiff Hangout",
-			shortName: "L",
-			id: "345ABC",
-		},
-	];
+export function getWorkspacesForUser() {
+	const workspaces = mockWorkspacesData.map((x) => ({
+		fullName: x.name,
+		shortName: x.name.charAt(0),
+		id: x.id,
+	}));
+
+	return workspaces;
+}
+
+export function getWorkspaceById(id: string): Workspace {
+	console.log(`getWorkspaceById(): id=${id}`);
+	const workspace = mockWorkspacesData.find((x) => x.id === id);
+
+	return workspace!;
 }
 
 export interface Workspace {
 	id: string;
-	fullName: string;
-	shortName: string;
+	name: string;
+	currentUser: {
+		name: string;
+		id: string;
+		status: string;
+	};
+	directMessages: DirectMessage[];
+	channels: Channel[];
 }
 
 export interface CurrentUser {
@@ -68,11 +111,4 @@ export interface DirectMessage {
 	name: string;
 	id: string;
 	status: string;
-}
-
-interface WorkspaceLoaderData {
-	workspace: Workspace;
-	currentUser: CurrentUser;
-	channels: Channel[];
-	directMessages: DirectMessage[];
 }

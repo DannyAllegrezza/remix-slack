@@ -1,8 +1,11 @@
-import { LoaderFunction } from "@remix-run/node";
+import type { LoaderFunction } from "@remix-run/node";
 import { Outlet, useLoaderData } from "@remix-run/react";
-import ChatInput from "~/components/Chat/ChatInput";
-import ChatMessage from "~/components/Chat/ChatMessage";
-import Sidebar, { Channel, CurrentUser, DirectMessage, Workspace } from "~/components/Sidebar";
+import type { Workspace } from "~/data/workspaces.server";
+import { getWorkspaceById } from "~/data/workspaces.server";
+// import ChatInput from "~/components/Chat/ChatInput";
+// import ChatMessage from "~/components/Chat/ChatMessage";
+
+import Sidebar from "~/components/Sidebar";
 
 const mockChatMessages = [
 	{
@@ -23,57 +26,17 @@ const mockChatMessages = [
 	},
 ];
 
-const mockWorkspaceData: WorkspaceLoaderData = {
-	workspace: {
-		id: "123",
-		name: "Remix 📀",
-	},
-	currentUser: {
-		name: "Danny Allegrezza",
-		id: "12345",
-		status: "active",
-	},
-	channels: [
-		{
-			name: "general",
-			id: "G3N3R4L",
-		},
-		{
-			name: "remix",
-			id: "R3M1X",
-		},
-	],
-	directMessages: [
-		{
-			name: "Ryan Flo-rence",
-			id: "24112",
-			status: "active",
-		},
-		{
-			name: "Kent Doddz",
-			id: "23421",
-			status: "away",
-		},
-	],
-};
-
-interface WorkspaceLoaderData {
-	workspace: Workspace;
-	currentUser: CurrentUser;
-	channels: Channel[];
-	directMessages: DirectMessage[];
-}
-
 export const loader: LoaderFunction = async ({ params }) => {
-	return mockWorkspaceData;
+	return getWorkspaceById(params.workspace as string);
 };
 
 export default function WorkspacePage() {
-	const { workspace, currentUser, channels, directMessages } = useLoaderData<WorkspaceLoaderData>();
+	console.log("hello from $workspace.tsx");
+	const workspace = useLoaderData<Workspace>();
 
 	return (
 		<>
-			<Sidebar workspace={workspace} currentUser={currentUser} channels={channels} directMessages={directMessages} />
+			<Sidebar workspace={workspace} />
 			<Outlet />
 		</>
 	);

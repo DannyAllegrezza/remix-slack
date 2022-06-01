@@ -1,36 +1,26 @@
-export interface Workspace {
-	id: string;
-	name: string;
-}
-
-export interface CurrentUser {
-	name: string;
-	id: string;
-	status: string;
-}
-
-export interface Channel {
-	name: string;
-	id: string;
-}
-
-export interface DirectMessage {
-	name: string;
-	id: string;
-	status: string;
-}
+import { NavLink } from "@remix-run/react";
+import type { Workspace } from "~/data/workspaces.server";
 
 export interface SidebarProps {
 	workspace: Workspace;
-	currentUser: CurrentUser;
-	channels: Channel[];
-	directMessages: DirectMessage[];
 }
 
-export default function Sidebar({ workspace, currentUser, channels, directMessages }: SidebarProps) {
+function BellIcon() {
+	return (
+		<svg className="h-6 w-6 fill-current text-white opacity-25" viewBox="0 0 20 20">
+			<path
+				d="M14 8a4 4 0 1 0-8 0v7h8V8zM8.027 2.332A6.003 6.003 0 0 0 4 8v6l-3 2v1h18v-1l-3-2V8a6.003 6.003 0 0 0-4.027-5.668 2 2 0 1 0-3.945 0zM12 18a2 2 0 1 1-4 0h4z"
+				fillRule="evenodd"
+			/>
+		</svg>
+	);
+}
+
+export default function Sidebar({ workspace }: SidebarProps) {
+	const { currentUser, channels, directMessages } = workspace;
 	return (
 		<>
-			<div className="bg-slate-800 text-purple-lighter flex-none w-64 pb-6 hidden md:block">
+			<div className="bg-slate-800 text-purple-lighter flex-none w-64 pb-6">
 				<div className="text-white mb-2 mt-3 px-4 flex justify-between">
 					<div className="flex-auto">
 						<h1 className="font-semibold text-xl leading-tight mb-1 truncate">{workspace.name}</h1>
@@ -42,12 +32,7 @@ export default function Sidebar({ workspace, currentUser, channels, directMessag
 						</div>
 					</div>
 					<div>
-						<svg className="h-6 w-6 fill-current text-white opacity-25" viewBox="0 0 20 20">
-							<path
-								d="M14 8a4 4 0 1 0-8 0v7h8V8zM8.027 2.332A6.003 6.003 0 0 0 4 8v6l-3 2v1h18v-1l-3-2V8a6.003 6.003 0 0 0-4.027-5.668 2 2 0 1 0-3.945 0zM12 18a2 2 0 1 1-4 0h4z"
-								fillRule="evenodd"
-							/>
-						</svg>
+						<BellIcon />
 					</div>
 				</div>
 				{/* Channels */}
@@ -60,8 +45,16 @@ export default function Sidebar({ workspace, currentUser, channels, directMessag
 							</svg>
 						</div>
 					</div>
-					<div className="bg-teal-600 py-1 px-4 text-white"># general</div>
+
+					{channels.map((channel) => (
+						<NavLink to={channel.id} key={channel.id}>
+							<div className="py-1 px-4 text-white"># {channel.name}</div>
+						</NavLink>
+					))}
+
+					{/* <div className="bg-teal-600 py-1 px-4 text-white"># general</div> */}
 				</div>
+
 				{/* Direct messages */}
 				<div className="mb-8">
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
@@ -72,7 +65,28 @@ export default function Sidebar({ workspace, currentUser, channels, directMessag
 							</svg>
 						</div>
 					</div>
+
 					<div className="flex items-center mb-3 px-4">
+						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
+							<circle cx="10" cy="10" r="10" />
+						</svg>
+						<span className="text-white">
+							Danny Allegrezza <span className="text-gray-500 text-sm">(you)</span>
+						</span>
+					</div>
+
+					{workspace.directMessages.map((dm) => (
+						<NavLink to={dm.id} key={dm.id}>
+							<div className="flex items-center mb-3 px-4">
+								<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
+									<circle cx="10" cy="10" r="10" />
+								</svg>
+								<span className="text-white">{dm.name}</span>
+							</div>
+						</NavLink>
+					))}
+
+					{/* <div className="flex items-center mb-3 px-4">
 						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
 							<circle cx="10" cy="10" r="10" />
 						</svg>
@@ -91,7 +105,7 @@ export default function Sidebar({ workspace, currentUser, channels, directMessag
 							<circle cx="11" cy="11" r="9" fill="none" strokeWidth="3" />
 						</svg>
 						<span className="text-white">Kent Doddz</span>
-					</div>
+					</div> */}
 				</div>
 				{/* <div>
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
