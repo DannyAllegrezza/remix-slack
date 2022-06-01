@@ -1,31 +1,44 @@
-import Workspaces from "./Workspaces";
+export interface Workspace {
+	id: string;
+	name: string;
+}
 
-const workspaces = [
-	{
-		fullName: "Remix Workspace",
-		shortName: "R",
-		id: "123",
-	},
-	{
-		fullName: "Langdiff Hangout",
-		shortName: "L",
-		id: "345",
-	},
-];
-export default function Sidebar() {
+export interface CurrentUser {
+	name: string;
+	id: string;
+	status: string;
+}
+
+export interface Channel {
+	name: string;
+	id: string;
+}
+
+export interface DirectMessage {
+	name: string;
+	id: string;
+	status: string;
+}
+
+export interface SidebarProps {
+	workspace: Workspace;
+	currentUser: CurrentUser;
+	channels: Channel[];
+	directMessages: DirectMessage[];
+}
+
+export default function Sidebar({ workspace, currentUser, channels, directMessages }: SidebarProps) {
 	return (
 		<>
-			<Workspaces spaces={workspaces} />
-
 			<div className="bg-slate-800 text-purple-lighter flex-none w-64 pb-6 hidden md:block">
 				<div className="text-white mb-2 mt-3 px-4 flex justify-between">
 					<div className="flex-auto">
-						<h1 className="font-semibold text-xl leading-tight mb-1 truncate">Workspace Name</h1>
+						<h1 className="font-semibold text-xl leading-tight mb-1 truncate">{workspace.name}</h1>
 						<div className="flex items-center mb-6">
 							<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
 								<circle cx="10" cy="10" r="10" />
 							</svg>
-							<span className="text-white opacity-50 text-sm">Danny Allegrezza</span>
+							<span className="text-white opacity-50 text-sm">{currentUser.name}</span>
 						</div>
 					</div>
 					<div>
@@ -37,6 +50,7 @@ export default function Sidebar() {
 						</svg>
 					</div>
 				</div>
+				{/* Channels */}
 				<div className="mb-8">
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
 						<div className="opacity-75">Channels</div>
@@ -48,6 +62,7 @@ export default function Sidebar() {
 					</div>
 					<div className="bg-teal-600 py-1 px-4 text-white"># general</div>
 				</div>
+				{/* Direct messages */}
 				<div className="mb-8">
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
 						<div className="opacity-75">Direct Messages</div>
@@ -61,15 +76,15 @@ export default function Sidebar() {
 						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
 							<circle cx="10" cy="10" r="10" />
 						</svg>
-						<span className="text-white opacity-75">
-							Danny Allegrezza <span className="text-grey text-sm">(you)</span>
+						<span className="text-white">
+							Danny Allegrezza <span className="text-gray-500 text-sm">(you)</span>
 						</span>
 					</div>
 					<div className="flex items-center mb-3 px-4">
 						<svg className="h-2 w-2 fill-current text-green-500 mr-2" viewBox="0 0 20 20">
 							<circle cx="10" cy="10" r="10" />
 						</svg>
-						<span className="text-white opacity-75">Ryan Flo-rence</span>
+						<span className="text-white">Ryan Flo-rence</span>
 					</div>
 					<div className="flex items-center px-4 mb-6 opacity-50">
 						<svg className="h-2 w-2 stroke-current text-white mr-2" viewBox="0 0 22 22">
@@ -78,7 +93,7 @@ export default function Sidebar() {
 						<span className="text-white">Kent Doddz</span>
 					</div>
 				</div>
-				<div>
+				{/* <div>
 					<div className="px-4 mb-2 text-white flex justify-between items-center">
 						<div className="opacity-75">Apps</div>
 						<div>
@@ -87,7 +102,7 @@ export default function Sidebar() {
 							</svg>
 						</div>
 					</div>
-				</div>
+				</div> */}
 			</div>
 		</>
 	);
