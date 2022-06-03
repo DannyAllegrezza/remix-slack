@@ -1,9 +1,19 @@
-export const mockChannels: Channel[] = [
+export const mockChannels: ChannelDetails[] = [
 	{
 		id: "1",
 		firstMessageTimestamp: null,
 		messages: [],
-		type: "dm",
+		participants: [
+			{
+				name: "Ryan Flo-rence",
+				avatarUrl: "https://avatars.githubusercontent.com/u/100200?v=4",
+				id: "123",
+				presence: "active",
+				status: "👷‍♂️ workin on Remix",
+				channelId: "1",
+			},
+		],
+		workspaceId: "",
 	},
 ];
 
@@ -26,16 +36,27 @@ const mockChannelMessages = [
 	},
 ];
 
-interface Channel {
+interface ChannelDetails {
 	id: string;
+	workspaceId: string;
 	firstMessageTimestamp: string | null;
 	messages: Message[];
-	type: "channel" | "dm";
+	participants: ChannelParticipant[];
+}
+
+interface User {
+	avatarUrl: string;
+	name: string;
+	id: string;
 }
 
 interface ChannelParticipant {
-	userId: string;
+	avatarUrl: string;
+	name: string;
+	id: string;
 	channelId: string;
+	presence: "away" | "active";
+	status: string | null;
 }
 
 interface Message {
@@ -51,5 +72,6 @@ interface Message {
 	user: {
 		avatarUrl: string;
 		name: string;
+		id: string;
 	};
 }
