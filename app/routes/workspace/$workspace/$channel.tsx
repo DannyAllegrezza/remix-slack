@@ -8,6 +8,11 @@ export const loader: LoaderFunction = async ({ params }) => {
 	return null;
 };
 
+/**
+ * This dynamic route is responsible for fetching data for the provided `$channel`.
+ * Includes:
+ * - Channel description
+ */
 export default function ChannelOverview() {
 	return (
 		<div className="flex-1 flex flex-col bg-white overflow-hidden">
