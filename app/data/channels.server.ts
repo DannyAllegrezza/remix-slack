@@ -1,31 +1,57 @@
 const remixWorkspaceId = "123EFG";
 
 const danny: User = {
-	avatarUrl: "https://www.dannyallegrezza.com/static/7c3c8fe6109d66a1aa2cf8e2060d7245/7d509/danny.jpg",
+	avatarUrl: "https://avatars.githubusercontent.com/u/7738918?v=4",
 	name: "Danny Allegrezza",
 	id: "USR123",
 };
 
+const rf: User = {
+	name: "Ryan Flo-rence",
+	avatarUrl: "https://avatars.githubusercontent.com/u/100200?v=4",
+	id: "USR22123",
+};
+
+const chance: User = {
+	name: "chaance",
+	avatarUrl: "https://avatars.githubusercontent.com/u/3082153?v=4",
+	id: "USR3122",
+};
+
+const saul: User = {
+	name: "Saul Goodman",
+	avatarUrl: "https://pbs.twimg.com/profile_images/2603710564/dp3ln37ptpcb6lhz54ql_400x400.jpeg",
+	id: "USR2222",
+};
+
+const baseMockMessage = {
+	workspaceId: remixWorkspaceId,
+	reactions: null,
+	parentId: null,
+	edited: false,
+};
+
 const mockChannelMessages: Message[] = [
 	{
+		...baseMockMessage,
 		id: "1",
-		workspaceId: remixWorkspaceId,
-		user: danny,
-		timestamp: "11:23",
 		content: "Hey there, whats up everyone??",
-		reactions: null,
-		parentId: null,
-		edited: false,
+		timestamp: "11:23",
+		user: danny,
 	},
 	{
+		...baseMockMessage,
 		id: "2",
-		workspaceId: remixWorkspaceId,
+		content: "I'm checking out some old episodes of breaking bad...",
+		timestamp: "11:24",
 		user: danny,
-		timestamp: "11:23",
-		content: "Hey there, whats up everyone??",
-		reactions: null,
-		parentId: null,
-		edited: false,
+	},
+	{
+		...baseMockMessage,
+		id: "3",
+		content: "Not much, just working on Remix!",
+		timestamp: "11:25",
+		user: rf,
 	},
 ];
 
@@ -38,9 +64,7 @@ export const mockChannels: ChannelDetails[] = [
 		messages: mockChannelMessages,
 		participants: [
 			{
-				name: "Ryan Flo-rence",
-				avatarUrl: "https://avatars.githubusercontent.com/u/100200?v=4",
-				id: "123",
+				...rf,
 				presence: "active",
 				status: "👷‍♂️ workin on Remix",
 				channelId: "R3M1X",
@@ -68,7 +92,11 @@ export const mockChannels: ChannelDetails[] = [
 	},
 ];
 
-interface ChannelDetails {
+export function getChannelDetailsById(channelId: string): ChannelDetails {
+	return mockChannels.find((x) => x.id === channelId)!;
+}
+
+export interface ChannelDetails {
 	id: string;
 	name: string;
 	topic: string | null;

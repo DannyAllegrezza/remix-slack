@@ -1,11 +1,17 @@
 import type { LoaderFunction } from "@remix-run/node";
+import { useLoaderData } from "@remix-run/react";
+
+import type { ChannelDetails } from "~/data/channels.server";
+import { getChannelDetailsById } from "~/data/channels.server";
+
 import ChatInput from "~/components/Chat/ChatInput";
 import ChatMessage from "~/components/Chat/ChatMessage";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	const channel = params["channel"];
+	const channelId = params["channel"] as string;
+	const loaderData = getChannelDetailsById(channelId);
 
-	return null;
+	return loaderData;
 };
 
 /**
@@ -14,12 +20,18 @@ export const loader: LoaderFunction = async ({ params }) => {
  * - Channel description
  */
 export default function ChannelOverview() {
+	const channelData = useLoaderData<ChannelDetails>();
+	const placeholder =
+		channelData.messages.length > 0
+			? `Send a message to #${channelData.name}`
+			: `Looks a little empty in here. Get the conversation started by sending a message!`;
+
 	return (
 		<div className="flex-1 flex flex-col bg-white overflow-hidden">
 			<div className="border-b flex px-6 py-2 items-center flex-none">
 				<div className="flex flex-col">
-					<h3 className="text-grey-darkest mb-1 font-extrabold">#general</h3>
-					<div className="text-grey-dark text-sm truncate">Super cool channel description!</div>
+					<h3 className="text-grey-darkest mb-1 font-extrabold">#{channelData.name}</h3>
+					<div className="text-grey-dark text-sm truncate">{channelData.topic}</div>
 				</div>
 				<div className="ml-auto hidden md:block">
 					<div className="relative">
@@ -43,12 +55,14 @@ export default function ChannelOverview() {
 			{/* Chat */}
 			<div className="py-4 flex-1 overflow-y-scroll">
 				{/* A chat message */}
+				{channelData.messages.map((msg) => (
+					<ChatMessage key={msg.id} user={msg.user} message={msg.content} timestamp={msg.timestamp} />
+				))}
 				{/* <ChatMessage />
-				<ChatMessage />
 				<ChatMessage />
 				<ChatMessage /> */}
 			</div>
-			<ChatInput />
+			<ChatInput placeholder={placeholder} />
 		</div>
 	);
 }
