@@ -8,7 +8,7 @@ import Workspaces from "~/components/Workspaces";
  * This loader is responsible for fetching all of the workspaces a user is a
  * part of.
  */
-export const loader: LoaderFunction = async ({ params }) => {
+export const loader: LoaderFunction = () => {
 	return getWorkspacesForUser();
 };
 

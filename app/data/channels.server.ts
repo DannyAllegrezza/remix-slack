@@ -53,6 +53,20 @@ const mockChannelMessages: Message[] = [
 		timestamp: "11:25",
 		user: rf,
 	},
+	{
+		...baseMockMessage,
+		id: "4",
+		content: "Don't Drink And Drive, But When You Do, Call Saul.",
+		timestamp: "11:29",
+		user: saul,
+	},
+	{
+		...baseMockMessage,
+		id: "5",
+		content: "Let’s just say I know a guy… who knows a guy… who knows another guy.",
+		timestamp: "11:29",
+		user: saul,
+	},
 ];
 
 export const mockChannels: ChannelDetails[] = [

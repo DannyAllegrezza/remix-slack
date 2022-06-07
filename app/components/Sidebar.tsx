@@ -80,7 +80,7 @@ export default function Sidebar({ workspace }: SidebarProps) {
 						</span>
 					</div>
 
-					{workspace.directMessages.map((dm) => (
+					{directMessages.map((dm) => (
 						<NavLink to={dm.id} key={dm.id}>
 							{({ isActive }) => (
 								<div className={`flex items-center mb-3 px-4 py-1 ${isActive && "bg-teal-600"}`}>

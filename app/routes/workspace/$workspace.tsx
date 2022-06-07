@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import { LoaderFunction, redirect } from "@remix-run/node";
 import { Outlet, useLoaderData, useMatches } from "@remix-run/react";
 import type { Workspace } from "~/data/workspaces.server";
 import { getWorkspaceById } from "~/data/workspaces.server";
@@ -6,7 +6,13 @@ import { getWorkspaceById } from "~/data/workspaces.server";
 import Sidebar from "~/components/Sidebar";
 
 export const loader: LoaderFunction = async ({ params }) => {
-	return getWorkspaceById(params.workspace as string);
+	const workspace = getWorkspaceById(params.workspace as string);
+
+	if (!workspace) {
+		throw new Response("Not Found", { status: 404 });
+	}
+
+	return workspace;
 };
 
 /**
@@ -19,7 +25,7 @@ export const loader: LoaderFunction = async ({ params }) => {
 export default function WorkspacePage() {
 	const workspace = useLoaderData<Workspace>();
 	const matches = useMatches();
-	console.log(`matches: ${JSON.stringify(matches, null, 2)}`);
+	// console.log(`matches: ${JSON.stringify(matches, null, 2)}`);
 
 	return (
 		<>
